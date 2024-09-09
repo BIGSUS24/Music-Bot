@@ -38,8 +38,8 @@ client = commands.Bot(command_prefix='!', intents=intents)
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
-    # Set initial status to "Playing with Shivam's Balls"
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="with Shivam's Balls"))
+    # Set initial status to "Playing with  Balls"
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="with  Balls"))
 
 @client.command(name='play', help='Plays a song based on the search query (lyrics or title).')
 async def play(ctx, *, search: str):
@@ -76,7 +76,7 @@ async def stop(ctx):
     # Stop playing and disconnect
     await ctx.voice_client.disconnect()
 
-    # Reset the status to "Playing with Shivam's Balls"
-    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="with Shivam's Balls"))
+    # Reset the status to "Playing with  Balls"
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="with  Balls"))
 
 client.run('YOUR_BOT_TOKEN')

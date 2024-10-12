@@ -23,10 +23,10 @@ class YTDLSource(discord.PCMVolumeTransformer):
     @classmethod
     async def from_url(cls, search, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
-        # Extract information about the song
+       
         data = await loop.run_in_executor(None, lambda: ytdl.extract_info(f"ytsearch5:{search}", download=not stream))
         if 'entries' in data:
-            data = data['entries'][0]  # pick the top result
+            data = data['entries'][0]  
         filename = data['url'] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename), data=data)
 
@@ -38,7 +38,7 @@ client = commands.Bot(command_prefix='!', intents=intents)
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
-    # Set initial status to "Playing with  Balls"
+    
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="with  Balls"))
 
 @client.command(name='play', help='Plays a song based on the search query (lyrics or title).')
@@ -56,11 +56,10 @@ async def play(ctx, *, search: str):
         await voice_client.move_to(channel)
 
     try:
-        # Extract song info and create player
+   
         player = await YTDLSource.from_url(search, loop=client.loop, stream=True)
         voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
 
-        # Update the status to the current song title
         await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=player.title))
 
         await ctx.send(f'Now playing: {player.title}')
@@ -73,10 +72,10 @@ async def stop(ctx):
         await ctx.send("I'm not connected to a voice channel.")
         return
 
-    # Stop playing and disconnect
+   
     await ctx.voice_client.disconnect()
 
-    # Reset the status to "Playing with  Balls"
+   
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name="with  Balls"))
 
 client.run('YOUR_BOT_TOKEN')
